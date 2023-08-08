@@ -1,0 +1,72 @@
+.background-container {
+    background-color: #ff455c;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  .custom-table {
+    background-color: #000064;
+    border-radius: 10px;
+    color: aliceblue;
+  }
+  
+  .custom-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .custom-checkbox input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .custom-checkbox label {
+    color: rgb(245, 245, 245);
+    margin-left: 10px;
+    font-size: 16px;
+  }
+  
+  .custom-button {
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Estilos para el elemento select */
+  select {
+  /* Tamaño y relleno */
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #333;
+  max-width: 300px; /* Tamaño máximo */
+  width: 100%; /* Ajustar el ancho al 100% en dispositivos pequeños */
+  box-sizing: border-box; /* Incluir el relleno y el borde en el tamaño total */
+  
+  /* Estilos adicionales para mejorar la apariencia */
+  outline: none; /* Eliminar el contorno al hacer clic */
+  transition: border-color 0.2s ease-in-out; /* Animación de transición */
+  }
+  
+  /* Estilos para cuando se coloca el cursor en el elemento select */
+  select:hover {
+  border-color: #666; /* Cambiar el color del borde al pasar el cursor */
+  }
+  
+  /* Estilos para cuando el elemento select está enfocado */
+  select:focus {
+  border-color: #4285f4; /* Cambiar el color del borde cuando está enfocado */
+  }
+  
+  /* Estilos personalizados para el elemento select en dispositivos pequeños */
+  @media (max-width: 576px) {
+  select {
+    max-width: none; /* Eliminar el ancho máximo */
+  }
+  }
+  

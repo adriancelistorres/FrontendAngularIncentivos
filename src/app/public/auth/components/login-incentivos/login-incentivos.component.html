@@ -1,0 +1,40 @@
+<div class="navbar">
+    <div class="container" style="padding: 10px;">
+      <div class="logo-container">
+        <img src="https://www.rom.com.pe/themes/rom-tailwind/img/logo_rom.png" alt="Logo" class="img-fluid" style="max-width: 200px;">
+      </div>
+    </div>
+  </div>
+  
+  <div class="background-container">
+    <div class="container  custom-container">
+  
+      <div class="row justify-content-center">
+        <div class="col-sm-6 text-center mt-5">
+          <img src="https://www.rom.com.pe/themes/rom-tailwind/img/logo_rom_blanco.png" alt="Logo" class="img-fluid" style="max-width: 200px;">
+        </div>
+      </div>
+      <div class="row mt-4 justify-content-center mt-4">
+        <div class="col-sm-6">
+          <h3 class="text-center" style="color: aliceblue;">Confirmación de Incentivos</h3>
+          <form (submit)="login($event)">
+            <div class="form-group">
+              <label for="dni" class="mt-4 mb-2" style="display: block; text-align: center; font-size: 20px; color: aliceblue;"> DNI :</label>
+              <input type="text" class="form-control custom-input" id="usuario" [(ngModel)]="usuario" name="usuario">
+              <label for="clave" class="mt-3 mb-2" style="display: block; text-align: center; font-size: 20px; color: aliceblue;">Contraseña :</label>
+              <input type="password" class="form-control custom-input" id="clave" [(ngModel)]="clave" name="clave">
+            </div>
+            <!-- <button type="submit" class="btn btn-primary d-block mx-auto mt-5 custom-button mb-4">Ingresar</button> -->
+            <button type="submit" class="btn btn-primary d-block mx-auto mt-5 custom-button mb-4" [disabled]="isLoading">
+              <span *ngIf="isLoading">
+                <i class="fa fa-spinner fa-spin"></i> Cargando...
+              </span>
+              <span *ngIf="!isLoading">Ingresar</span>
+            </button>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  

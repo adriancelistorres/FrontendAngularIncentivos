@@ -1,0 +1,81 @@
+<div class="navbar">
+    <div class="container" style="padding: 10px">
+      <div class="logo-container">
+         <img src="https://www.rom.com.pe/themes/rom-tailwind/img/logo_rom.png" alt="Logo" class="img-fluid" style="max-width: 200px;">
+
+      </div>
+      <div class="btn-container">
+        <button class="btn btn-danger" (click)="cerrarSesion()">Cerrar Sesión</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="background-container">
+    <div class="container">
+      <br>
+      <br>
+      <h2 style="color: rgb(245, 245, 245);">Tabla de Incentivos</h2>
+      <div class="custom-search">
+        <!-- <input type="text" [(ngModel)]="searchTerm" (input)="filtrarIncentivos()" placeholder="Buscar"> -->
+      </div>
+      <select class="custom-select" name="select" [(ngModel)]="selectedPeriodo" (change)="filtrarIncentivos()">
+        <option value="">Todo</option>
+        <option *ngFor="let periodo of periodos" [value]="periodo">{{ periodo }}</option>
+      </select>
+  
+  
+      <!-- ... Resto del código ... -->
+    </div>
+    <div class="container">
+      <br>
+      <br>
+      <div class="table-responsive ">
+        <table class="table table-dark">
+          <thead >
+            <tr>
+              <th>ID</th>
+              <th>Periodo Incentivo</th>
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
+              <th>DNI Promotor</th>
+              <th>Nombre Completo</th>
+              <th>PDV</th>
+              <!-- <th>ID Incentivo</th> -->
+              <th>Nombre Incentivo</th>
+              <th>Tipo Incentivo</th>
+              <th>Monto</th>
+              <th>Estado Incentivo</th>
+              <!-- <th>Confirmación de Entrega</th> -->
+              <th>Aceptar</th>
+  
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let incentivo of listIncentivos">
+              <td>{{ incentivo.id }}</td>
+                <td>{{ incentivo.periodoIncentivo }}</td>
+                <td>{{ incentivo.fechaInicio | date: 'yyyy-MM-dd'  }}</td>
+                <td>{{ incentivo.fechaFin| date: 'yyyy-MM-dd'  }}</td>
+                <td>{{ incentivo.dniPromotor }}</td>
+                <td>{{ incentivo.nombreCompleto }}</td>
+                <td>{{ incentivo.puntoventa}}</td>
+                <!-- <td>{{ incentivo.idIncentivo }}</td> -->
+                <td>{{ incentivo.nombreIncentivo }}</td>
+                <td>{{ incentivo.empresa }}</td>
+                <td>{{ incentivo.monto }}</td>
+                <td>{{ incentivo.estadoIncentivo }}</td>
+                <!-- <td>{{ incentivo.aceptado ? "Sí" : "No" }}</td> -->
+                <td>
+                <!-- Botón "Aceptar" para cada elemento -->
+                <button type="button" class="btn btn-success" (click)="onAceptar(incentivo)" [disabled]="incentivo.aceptado">
+                  Aceptar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+    </div>
+  </div>
+  

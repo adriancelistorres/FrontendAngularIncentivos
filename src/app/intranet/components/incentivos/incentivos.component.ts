@@ -10,8 +10,8 @@ import { Observable, Subject, tap } from 'rxjs';
 
 @Component({
   selector: 'app-incentivos',
-  templateUrl:'./incentivos.component.html',
-  styleUrls: ['./incentivos.component.css']
+  templateUrl: './incentivos.component.html',
+  styleUrls: ['./incentivos.component.css'],
 })
 export class IncentivosComponent implements OnInit {
   dni: string = '';
@@ -20,8 +20,15 @@ export class IncentivosComponent implements OnInit {
   selectedPeriodo: any = ''; // Valor predeterminado seleccionado en el combobox
   periodos: string[] = []; // Variable para almacenar la lista de periodos disponibles
   listIncentivosOriginal: IIncentivoVista[] = []; // Variable para mantener una copia de los incentivos sin filtrar
-  token?:string=''; // Variable para almacenar el token
+  token?: string = ''; // Variable para almacenar el token
   private tokenExpirationTimer: any; // Variable para almacenar el temporizador
+  tipoTotales: { tipo: string; total: number; cantidad: number }[] = []; // Variable para almacenar los totales por tipo
+  cantidadTipos: number = 0; // Variable para almacenar la cantidad de tipos diferentes
+  tipos: string[] = []; // Variable para almacenar la lista de tipos de incentivos disponibles
+  selectedTipo: any = '';
+  empresas: string[] = []; // Variable para almacenar la lista de periodos disponibles
+  montoPorEmpresa: { empresa: string; totalMontoEmpresa: number }[] = [];
+  totalMontoGeneral: number = 0;
 
 
   constructor(
@@ -30,37 +37,43 @@ export class IncentivosComponent implements OnInit {
     private toastr: ToastrService,
     private _router: Router,
     private _tokenservice: TokenInterceptorService,
-    private _disparadorDNI:IncentivosDisparadosService
-
-
+    private _disparadorDNI: IncentivosDisparadosService
   ) {}
 
   ngOnInit(): void {
     this._disparadorDNI.disparadorDNI.subscribe((data) => {
       console.log('dataaa', data);
-      const dataAsString = (data.data);
+      const dataAsString = data.data;
       console.log('dataAsString', dataAsString);
       this.dni = dataAsString;
     });
     this.checkTokenExpiration();
 
-      console.log('tokken',this._tokenservice.interceptor())
-      this.getIncentivos();
+    console.log('tokken', this._tokenservice.interceptor());
+    this.getIncentivos();
+    // this.calculateTotals(); // Llama a la función para calcular los totales
+
   }
 
   getIncentivos(): void {
+    // this.calcularTiposIncentivos();
+
     console.log('Dtas', this.dni);
     this._incentivosServices.getIncentivosConfirmationFalse(this.dni).subscribe(
       (data: IIncentivoVista[]) => {
         if (data.length === 0) {
-          this.toastr.warning('No se encontraron incentivos a su nombre.', 'SIN INCENTIVOS');
+          this.toastr.warning(
+            'No se encontraron incentivos a su nombre.',
+            'SIN INCENTIVOS'
+          );
           this._router.navigate(['/incentivosLogin']);
         } else {
           this.listIncentivosOriginal = data; // Almacena la lista original sin filtrar
           this.listIncentivos = data; // Establece la lista filtrada inicialmente
-          // console.log('DATA', this.listIncentivos);
-          // console.log('DATA', data);
           this.periodos = this.extractUniquePeriods(data);
+          
+          this.empresas=this.extractUniqueEmpesa(data);
+          this.calculateTotals()
 
         }
       },
@@ -75,28 +88,79 @@ export class IncentivosComponent implements OnInit {
     );
   }
 
+  // filtrarIncentivos(): void {
+  //   // Si no se ha seleccionado un período (o se ha seleccionado "Todo"), muestra todos los incentivos sin filtrar
+  //   if (!this.selectedPeriodo) {
+  //     this.listIncentivos = this.listIncentivosOriginal;
+  //     this.selectedTipo = ''; // Reset the selectedTipo filter
+  //     return;
+  //   }
+
+  //   // Filtra los incentivos según el período seleccionado
+  //   this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
+
+  //     return incentivo.periodoIncentivo === this.selectedPeriodo;
+  //   });
+
+  // }
+
+  // filtrarIncentivosTipo(): void {
+  //   if (!this.selectedTipo) {
+  //     this.listIncentivos = this.listIncentivosOriginal;
+  //     this.selectedPeriodo = ''; // Reset the selectedPeriodo filter
+  //     return;
+  //   }
+  
+  //   this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
+
+  //     return incentivo.empresa === this.selectedTipo;
+  //   });
+  // }
   filtrarIncentivos(): void {
-    // Si no se ha seleccionado un período (o se ha seleccionado "Todo"), muestra todos los incentivos sin filtrar
     if (!this.selectedPeriodo) {
       this.listIncentivos = this.listIncentivosOriginal;
+      this.selectedTipo = ''; // Reset the selectedTipo filter
       return;
     }
-
-    // Filtra los incentivos según el período seleccionado
+  
+    this.selectedTipo = ''; // Reset the selectedTipo filter
     this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
       return incentivo.periodoIncentivo === this.selectedPeriodo;
     });
   }
+  
+  filtrarIncentivosTipo(): void {
+    if (!this.selectedTipo) {
+      this.listIncentivos = this.listIncentivosOriginal;
+      this.selectedPeriodo = ''; // Reset the selectedPeriodo filter
+      return;
+    }
+  
+    this.selectedPeriodo = ''; // Reset the selectedPeriodo filter
+    this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
+      return incentivo.empresa === this.selectedTipo;
+    });
+  }
+  
+  
   extractUniquePeriods(incentivos: IIncentivoVista[]): string[] {
     const periodosSet = new Set<string>();
     for (const incentivo of incentivos) {
       periodosSet.add(incentivo.periodoIncentivo);
     }
-    // console.log(periodosSet)
 
     return Array.from(periodosSet);
   }
 
+  
+  extractUniqueEmpesa(incentivos: IIncentivoVista[]): string[] {
+    const empresaSet = new Set<string>();
+    for (const incentivo of incentivos) {
+      empresaSet.add(incentivo.empresa);
+    }
+
+    return Array.from(empresaSet);
+  }
 
 
   onAceptar(incentivo: IIncentivoVista): void {
@@ -122,6 +186,8 @@ export class IncentivosComponent implements OnInit {
                 timerProgressBar: true,
               });
               this.updateIncentivosList();
+              this.calculateTotals()
+
             },
             (error) => {
               console.error(error);
@@ -144,21 +210,26 @@ export class IncentivosComponent implements OnInit {
       (data: IIncentivoVista[]) => {
         if (data.length === 0) {
           // Si la lista está vacía, mostrar mensaje y redirigir al login de incentivos
-          this.toastr.warning('Ya no tienes incentivos cargados.', 'SIN INCENTIVOS');
+          this.toastr.warning(
+            'Ya no tienes incentivos cargados.',
+            'SIN INCENTIVOS'
+          );
           this._router.navigate(['/incentivosLogin']);
         } else {
-          // Actualizar la lista de incentivos original sin filtrar
-          this.listIncentivosOriginal = data;
 
-          // Aplicar el filtro solo si hay un período seleccionado
+          this.listIncentivosOriginal = data;
+          this.listIncentivos = data; // Update the filtered list as well
+
+          this.calculateTotals()
+          // this.calculateTotals();
+        
+          // Reapply the filters based on the stored values
           if (this.selectedPeriodo) {
-            this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
-              return incentivo.periodoIncentivo === this.selectedPeriodo;
-            });
-          } else {
-            // Si no hay un período seleccionado (o se seleccionó "Todo"), mostrar todos los incentivos sin filtrar
-            this.listIncentivos = this.listIncentivosOriginal;
+            this.filtrarIncentivos();
+          } else if (this.selectedTipo) {
+            this.filtrarIncentivosTipo();
           }
+        
         }
       },
 
@@ -172,6 +243,36 @@ export class IncentivosComponent implements OnInit {
       }
     );
   }
+
+  calculateTotals(): void {
+    const totalMontoGeneral = this.listIncentivosOriginal.reduce((total, incentivo) => {
+      return total + incentivo.monto;
+    }, 0);
+  
+    console.log('Lista de incentivos:', this.listIncentivos);
+    console.log('Monto General:', totalMontoGeneral);
+  
+    // Calcular el monto por empresa
+    const montoPorEmpresa = this.empresas.map(empresa => {
+      const totalMontoEmpresa = this.listIncentivosOriginal
+        .filter(incentivo => incentivo.empresa === empresa)
+        .reduce((total, incentivo) => {
+          return total + incentivo.monto;
+        }, 0);
+  
+      return { empresa, totalMontoEmpresa };
+    });
+  
+    console.log('Monto por Empresa:');
+    console.table(montoPorEmpresa);
+  
+    this.montoPorEmpresa = montoPorEmpresa; // Asignar los montos por empresa calculados
+    this.totalMontoGeneral = totalMontoGeneral; // Asignar el monto general calculado
+
+  
+  }
+
+
   checkTokenExpiration(): void {
     //const token = this.cookieService.get('token'); // Obtener el token del cookie
     const token = localStorage.getItem('token'); // Obtener el token del localStorage
@@ -223,13 +324,11 @@ export class IncentivosComponent implements OnInit {
     });
   }
 
+  
   cerrarSesion(): void {
-    // Borrar la cookie
-    //this.cookieService.delete('token');
+    
     localStorage.removeItem('token');
-    // Redirigir al login
     this._router.navigate(['/incentivosLogin']);
   }
-
-
+  
 }

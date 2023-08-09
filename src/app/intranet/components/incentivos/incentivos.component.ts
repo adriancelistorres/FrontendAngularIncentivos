@@ -88,34 +88,7 @@ export class IncentivosComponent implements OnInit {
     );
   }
 
-  // filtrarIncentivos(): void {
-  //   // Si no se ha seleccionado un período (o se ha seleccionado "Todo"), muestra todos los incentivos sin filtrar
-  //   if (!this.selectedPeriodo) {
-  //     this.listIncentivos = this.listIncentivosOriginal;
-  //     this.selectedTipo = ''; // Reset the selectedTipo filter
-  //     return;
-  //   }
 
-  //   // Filtra los incentivos según el período seleccionado
-  //   this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
-
-  //     return incentivo.periodoIncentivo === this.selectedPeriodo;
-  //   });
-
-  // }
-
-  // filtrarIncentivosTipo(): void {
-  //   if (!this.selectedTipo) {
-  //     this.listIncentivos = this.listIncentivosOriginal;
-  //     this.selectedPeriodo = ''; // Reset the selectedPeriodo filter
-  //     return;
-  //   }
-  
-  //   this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
-
-  //     return incentivo.empresa === this.selectedTipo;
-  //   });
-  // }
   filtrarIncentivos(): void {
     if (!this.selectedPeriodo) {
       this.listIncentivos = this.listIncentivosOriginal;

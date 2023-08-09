@@ -44,6 +44,22 @@
             </select>
           </div>
         </div>
+        <!-- <div class="col-lg-4" style="padding-top: 20px">
+          <h4 style="color: #000064; font-size: 20px; font-weight: bold">
+            Filtro Tipo
+          </h4>
+          <select
+            class="custom-select"
+            name="selectTipo"
+            [(ngModel)]="selectedTipo"
+            (change)="filtrarIncentivosTipo()"
+          >
+            <option value="">Todo</option>
+            <option *ngFor="let empresa of empresas" [value]="empresa">
+              {{ empresa }}
+            </option>
+          </select>
+        </div> -->
         <div class="col-lg-4" style="padding-top: 20px">
           <h4 style="color: #000064; font-size: 20px; font-weight: bold">
             Filtro Tipo
@@ -60,17 +76,16 @@
             </option>
           </select>
         </div>
-
         <div class="row">
           <h4 style="color: #000064; font-size: 20px; font-weight: bold">
             Totales
           </h4>
-          <div class="col-lg-3">
+          <div class="col-lg-2">
             <p
               style="background-color: white; border-radius: 10px; padding: 8px"
             >
               <span style="font-weight: bold"
-                >Monto General: S/. {{ totalMontoGeneral }}</span
+                >Monto General: {{ "S/." + totalMontoGeneral }}</span
               >
             </p>
           </div>
@@ -78,8 +93,14 @@
           <div class="col-lg-2" *ngFor="let montoEmpresa of montoPorEmpresa">
             <p
               style="background-color: white; border-radius: 10px; padding: 8px"
+              
             >
-              <span style="font-weight: bold"
+              <span style="font-weight: bold;background-color: white; border-radius: 10px; padding: 8px"
+              [ngStyle]="
+                montoEmpresa.empresa === selectedTipo
+                  ? estiloFondoParaTipoSeleccionado
+                  : null
+              "
                 >Total {{ montoEmpresa.empresa }}: S/.
                 {{ montoEmpresa.totalMontoEmpresa }}</span
               >
@@ -87,6 +108,23 @@
           </div>
         </div>
       </div>
+
+      <!-- <div
+        class="col-lg-2"
+        *ngFor="let montoEmpresa of montoPorEmpresa"
+        [ngStyle]="
+          montoEmpresa.empresa === selectedTipo
+            ? estiloFondoParaTipoSeleccionado
+            : null
+        "
+      >
+        <p style="border-radius: 10px; padding: 8px">
+          <span style="font-weight: bold">
+            Total {{ montoEmpresa.empresa }}: S/.
+            {{ montoEmpresa.totalMontoEmpresa }}</span
+          >
+        </p>
+      </div> -->
 
       <div class="container">
         <br />

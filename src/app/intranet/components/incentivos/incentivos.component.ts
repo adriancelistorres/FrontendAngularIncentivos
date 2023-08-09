@@ -29,7 +29,11 @@ export class IncentivosComponent implements OnInit {
   empresas: string[] = []; // Variable para almacenar la lista de periodos disponibles
   montoPorEmpresa: { empresa: string; totalMontoEmpresa: number }[] = [];
   totalMontoGeneral: number = 0;
+  empresasColores: any[] = [];
+  coloresEmpres: any;
 
+  // Dentro de la clase IncentivosComponent
+estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesidades
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -52,12 +56,10 @@ export class IncentivosComponent implements OnInit {
     console.log('tokken', this._tokenservice.interceptor());
     this.getIncentivos();
     // this.calculateTotals(); // Llama a la función para calcular los totales
-
   }
 
   getIncentivos(): void {
     // this.calcularTiposIncentivos();
-
     console.log('Dtas', this.dni);
     this._incentivosServices.getIncentivosConfirmationFalse(this.dni).subscribe(
       (data: IIncentivoVista[]) => {
@@ -71,10 +73,25 @@ export class IncentivosComponent implements OnInit {
           this.listIncentivosOriginal = data; // Almacena la lista original sin filtrar
           this.listIncentivos = data; // Establece la lista filtrada inicialmente
           this.periodos = this.extractUniquePeriods(data);
-          
-          this.empresas=this.extractUniqueEmpesa(data);
-          this.calculateTotals()
 
+          this.empresas = this.extractUniqueEmpesa(data);
+          // this.empresasColores = this.extractUniqueEmpesa(data);
+          // const coloresEmpres = this.empresasColores.map((empresa, index) => {
+          //   return { letra: empresa, id: index + 1 };
+          // });
+
+       
+          // const coloresEmpres2 = this.empresasColores.map((empresa, index) => {
+          //   const cssClass = `color-${index + 1}`;
+          //   return { letra: empresa, id: index + 1, cssClass: cssClass };
+          // });
+
+          // this.coloresEmpres = coloresEmpres; // Assign to a component property
+
+          // this.coloresEmpres = coloresEmpres2; //
+          // console.log('coloresEmpres', coloresEmpres);
+
+          this.calculateTotals();
         }
       },
       (error) => {
@@ -88,34 +105,60 @@ export class IncentivosComponent implements OnInit {
     );
   }
 
-
+  getBackgroundStyles(empresa: string): any {
+    if (empresa === 'ROM') {
+      return { 'background-color': '#ff455c' };
+    } else if (empresa === 'OPPO') {
+      return { 'background-color': 'chocolate' };
+    } else if (empresa === 'ENTEL') {
+      return { 'background-color': 'deepskyblue' }; // Set the color for ENTEL
+    }else if (empresa === 'RENO') {
+      return { 'background-color': 'chartreuse' }; // Set the color for ENTEL
+    }
+   
+    // Add more cases for other companies if needed
+  }
+  
   filtrarIncentivos(): void {
     if (!this.selectedPeriodo) {
       this.listIncentivos = this.listIncentivosOriginal;
       this.selectedTipo = ''; // Reset the selectedTipo filter
       return;
     }
-  
+
     this.selectedTipo = ''; // Reset the selectedTipo filter
     this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
       return incentivo.periodoIncentivo === this.selectedPeriodo;
     });
   }
-  
+
+  // filtrarIncentivosTipo(): void {
+  //   if (!this.selectedTipo) {
+  //     this.listIncentivos = this.listIncentivosOriginal;
+  //     this.selectedPeriodo = ''; // Reset the selectedPeriodo filter
+  //     return;
+  //   }
+
+  //   this.selectedPeriodo = ''; // Reset the selectedPeriodo filter
+  //   this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
+  //     return incentivo.empresa === this.selectedTipo;
+  //   });
+  // }
   filtrarIncentivosTipo(): void {
     if (!this.selectedTipo) {
       this.listIncentivos = this.listIncentivosOriginal;
-      this.selectedPeriodo = ''; // Reset the selectedPeriodo filter
       return;
     }
   
-    this.selectedPeriodo = ''; // Reset the selectedPeriodo filter
     this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
       return incentivo.empresa === this.selectedTipo;
     });
+  
+    // Calcula el estilo de fondo para el tipo de empresa seleccionado
+    this.estiloFondoParaTipoSeleccionado = this.getBackgroundStyles(this.selectedTipo);
   }
   
-  
+
   extractUniquePeriods(incentivos: IIncentivoVista[]): string[] {
     const periodosSet = new Set<string>();
     for (const incentivo of incentivos) {
@@ -125,16 +168,14 @@ export class IncentivosComponent implements OnInit {
     return Array.from(periodosSet);
   }
 
-  
   extractUniqueEmpesa(incentivos: IIncentivoVista[]): string[] {
     const empresaSet = new Set<string>();
     for (const incentivo of incentivos) {
       empresaSet.add(incentivo.empresa);
     }
-
+    console.log('empresaSet', empresaSet);
     return Array.from(empresaSet);
   }
-
 
   onAceptar(incentivo: IIncentivoVista): void {
     Swal.fire({
@@ -159,8 +200,7 @@ export class IncentivosComponent implements OnInit {
                 timerProgressBar: true,
               });
               this.updateIncentivosList();
-              this.calculateTotals()
-
+              this.calculateTotals();
             },
             (error) => {
               console.error(error);
@@ -189,20 +229,18 @@ export class IncentivosComponent implements OnInit {
           );
           this._router.navigate(['/incentivosLogin']);
         } else {
-
           this.listIncentivosOriginal = data;
           this.listIncentivos = data; // Update the filtered list as well
 
-          this.calculateTotals()
+          this.calculateTotals();
           // this.calculateTotals();
-        
+
           // Reapply the filters based on the stored values
           if (this.selectedPeriodo) {
             this.filtrarIncentivos();
           } else if (this.selectedTipo) {
             this.filtrarIncentivosTipo();
           }
-        
         }
       },
 
@@ -218,33 +256,33 @@ export class IncentivosComponent implements OnInit {
   }
 
   calculateTotals(): void {
-    const totalMontoGeneral = this.listIncentivosOriginal.reduce((total, incentivo) => {
-      return total + incentivo.monto;
-    }, 0);
-  
+    const totalMontoGeneral = this.listIncentivosOriginal.reduce(
+      (total, incentivo) => {
+        return total + incentivo.monto;
+      },
+      0
+    );
+
     console.log('Lista de incentivos:', this.listIncentivos);
     console.log('Monto General:', totalMontoGeneral);
-  
+
     // Calcular el monto por empresa
-    const montoPorEmpresa = this.empresas.map(empresa => {
+    const montoPorEmpresa = this.empresas.map((empresa) => {
       const totalMontoEmpresa = this.listIncentivosOriginal
-        .filter(incentivo => incentivo.empresa === empresa)
+        .filter((incentivo) => incentivo.empresa === empresa)
         .reduce((total, incentivo) => {
           return total + incentivo.monto;
         }, 0);
-  
+
       return { empresa, totalMontoEmpresa };
     });
-  
+
     console.log('Monto por Empresa:');
     console.table(montoPorEmpresa);
-  
+
     this.montoPorEmpresa = montoPorEmpresa; // Asignar los montos por empresa calculados
     this.totalMontoGeneral = totalMontoGeneral; // Asignar el monto general calculado
-
-  
   }
-
 
   checkTokenExpiration(): void {
     //const token = this.cookieService.get('token'); // Obtener el token del cookie
@@ -297,11 +335,8 @@ export class IncentivosComponent implements OnInit {
     });
   }
 
-  
   cerrarSesion(): void {
-    
     localStorage.removeItem('token');
     this._router.navigate(['/incentivosLogin']);
   }
-  
 }

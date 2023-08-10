@@ -111,12 +111,11 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
     } else if (empresa === 'OPPO') {
       return { 'background-color': 'chocolate' };
     } else if (empresa === 'ENTEL') {
-      return { 'background-color': 'deepskyblue' }; // Set the color for ENTEL
+      return { 'background-color': 'deepskyblue' }; 
     }else if (empresa === 'RENO') {
-      return { 'background-color': 'chartreuse' }; // Set the color for ENTEL
+      return { 'background-color': 'chartreuse' }; 
     }
    
-    // Add more cases for other companies if needed
   }
   
   filtrarIncentivos(): void {
@@ -132,21 +131,10 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
     });
   }
 
-  // filtrarIncentivosTipo(): void {
-  //   if (!this.selectedTipo) {
-  //     this.listIncentivos = this.listIncentivosOriginal;
-  //     this.selectedPeriodo = ''; // Reset the selectedPeriodo filter
-  //     return;
-  //   }
-
-  //   this.selectedPeriodo = ''; // Reset the selectedPeriodo filter
-  //   this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
-  //     return incentivo.empresa === this.selectedTipo;
-  //   });
-  // }
   filtrarIncentivosTipo(): void {
     if (!this.selectedTipo) {
       this.listIncentivos = this.listIncentivosOriginal;
+      this.estiloFondoParaTipoSeleccionado = null; // Restablecer el estilo cuando se borra la selección
       return;
     }
   
@@ -154,7 +142,7 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
       return incentivo.empresa === this.selectedTipo;
     });
   
-    // Calcula el estilo de fondo para el tipo de empresa seleccionado
+    // Calcula y almacena el estilo de fondo para el tipo de empresa seleccionado
     this.estiloFondoParaTipoSeleccionado = this.getBackgroundStyles(this.selectedTipo);
   }
   
@@ -240,6 +228,9 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
             this.filtrarIncentivos();
           } else if (this.selectedTipo) {
             this.filtrarIncentivosTipo();
+          }
+          if (this.selectedTipo) {
+            this.estiloFondoParaTipoSeleccionado = this.getBackgroundStyles(this.selectedTipo);
           }
         }
       },

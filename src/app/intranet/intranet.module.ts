@@ -9,15 +9,11 @@ import { SharedModule } from '../core/shared/shared.module';
 import { IntranetRoutingModule } from './intranet-routing.module';
 import { IncentivosComponent } from './components/incentivos/incentivos.component';
 import { CommonModule } from '@angular/common';
+import { IncentivosPremiosComponent } from './components/incentivos-premios/incentivos-premios.component';
 
 @NgModule({
-  declarations: [IncentivosComponent],
-  imports: [
-    IntranetRoutingModule,
-    SharedModule,
-    FormsModule,
-    CommonModule,
-  ],
+  declarations: [IncentivosComponent, IncentivosPremiosComponent],
+  imports: [IntranetRoutingModule, SharedModule, FormsModule, CommonModule],
   exports: [],
 })
 export class IntranetModule {}

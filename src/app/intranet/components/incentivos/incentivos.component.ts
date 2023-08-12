@@ -65,10 +65,10 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
       (data: IIncentivoVista[]) => {
         if (data.length === 0) {
           this.toastr.warning(
-            'No se encontraron incentivos a su nombre.',
+            'No se encontraron incentivos actuales su nombre.',
             'SIN INCENTIVOS'
           );
-          this._router.navigate(['/incentivosLogin']);
+          // this._router.navigate(['/incentivosLogin']);
         } else {
           this.listIncentivosOriginal = data; // Almacena la lista original sin filtrar
           this.listIncentivos = data; // Establece la lista filtrada inicialmente
@@ -107,13 +107,20 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
 
   getBackgroundStyles(empresa: string): any {
     if (empresa === 'ROM') {
-      return { 'background-color': '#ff455c' };
+      return { 'background-color': '#ff455c', 'padding-top': '5px', 'padding-bottom': '5px' ,'padding-right': '20px'   };
     } else if (empresa === 'OPPO') {
-      return { 'background-color': 'chocolate' };
+      return { 'background-color': 'chocolate', 'padding-top': '5px', 'padding-bottom': '5px' ,'padding-right': '10px'  };
     } else if (empresa === 'ENTEL') {
-      return { 'background-color': 'deepskyblue' }; 
+      return { 'background-color': 'deepskyblue' , 'padding-top': '5px', 'padding-bottom': '5px' ,'padding-right': '10px' }; 
     }else if (empresa === 'RENO') {
-      return { 'background-color': 'chartreuse' }; 
+      return { 'background-color': 'chartreuse', 'padding-top': '5px', 'padding-bottom': '5px' ,'padding-right': '10px'  }; 
+    }
+    else if (empresa === 'HONOR') {
+      return { 'background-color': 'aquamarine', 'padding-top': '5px', 'padding-bottom': '5px','padding-right': '10px'      }; 
+    } 
+    else{
+      return { 'background-color': 'antiquewhite', 'padding-top': '5px', 'padding-bottom': '5px','padding-right': '10px'  }; 
+
     }
    
   }
@@ -135,9 +142,10 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
     if (!this.selectedTipo) {
       this.listIncentivos = this.listIncentivosOriginal;
       this.estiloFondoParaTipoSeleccionado = null; // Restablecer el estilo cuando se borra la selección
+      this.selectedPeriodo=''
       return;
     }
-  
+    this.selectedPeriodo=''
     this.listIncentivos = this.listIncentivosOriginal.filter((incentivo) => {
       return incentivo.empresa === this.selectedTipo;
     });

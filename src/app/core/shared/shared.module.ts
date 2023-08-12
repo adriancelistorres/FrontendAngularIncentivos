@@ -5,10 +5,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { RouterModule } from '@angular/router';
+import { IncentivosNavbarComponent } from './components/headers/incentivos-navbar/incentivos-navbar.component';
 
 @NgModule({
   declarations: [
     //ACA VAN LOS COMPONENTS
+    IncentivosNavbarComponent
   ],
   imports: [
     HttpClientModule,
@@ -30,6 +32,7 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    IncentivosNavbarComponent
   ],
 })
 export class SharedModule {}

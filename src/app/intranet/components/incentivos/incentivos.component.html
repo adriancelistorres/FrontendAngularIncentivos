@@ -1,23 +1,8 @@
-<div class="navbar">
-  <div class="container" style="padding: 10px">
-    <div class="logo-container">
-      <img
-        src="https://www.rom.com.pe/themes/rom-tailwind/img/logo_rom.png"
-        alt="Logo"
-        class="img-fluid"
-        style="max-width: 200px"
-      />
-    </div>
-    <div class="btn-container">
-      <button class="btn btn-danger" (click)="cerrarSesion()">
-        Cerrar Sesión
-      </button>
-    </div>
-  </div>
-</div>
 
-<div class="background-container">
-  <div class="container">
+<app-incentivos-navbar></app-incentivos-navbar>
+
+<div class="background-container" style="padding-top: 30px;">
+  <div class="container" >
     <h2 style="color: rgb(245, 245, 245); margin-bottom: 30px">
       Tabla de Incentivos
     </h2>
@@ -44,22 +29,6 @@
             </select>
           </div>
         </div>
-        <!-- <div class="col-lg-4" style="padding-top: 20px">
-          <h4 style="color: #000064; font-size: 20px; font-weight: bold">
-            Filtro Tipo
-          </h4>
-          <select
-            class="custom-select"
-            name="selectTipo"
-            [(ngModel)]="selectedTipo"
-            (change)="filtrarIncentivosTipo()"
-          >
-            <option value="">Todo</option>
-            <option *ngFor="let empresa of empresas" [value]="empresa">
-              {{ empresa }}
-            </option>
-          </select>
-        </div> -->
         <div class="col-lg-4" style="padding-top: 20px">
           <h4 style="color: #000064; font-size: 20px; font-weight: bold">
             Filtro Tipo
@@ -94,13 +63,12 @@
             <p
               style="background-color: white; border-radius: 10px; padding: 8px" 
             >
-              <span style="font-weight: bold; border-radius: 10px; padding: 8px"
+              <span style="font-weight: bold; border-radius: 10px;"
               [ngStyle]="
                 montoEmpresa.empresa === selectedTipo
                   ? estiloFondoParaTipoSeleccionado
                   : null
-              ">Total {{ montoEmpresa.empresa }}:S/.
-                {{montoEmpresa.totalMontoEmpresa }}</span
+              ">Total {{montoEmpresa.empresa }}:S/.{{montoEmpresa.totalMontoEmpresa }}</span
               >
             </p>
           </div>

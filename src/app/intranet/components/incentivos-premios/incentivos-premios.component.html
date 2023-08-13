@@ -39,7 +39,7 @@
                       Vigencia incentivo
                     </th>
                     <th style="background-color: #ccc; color: black" class="borde">
-                      Monto
+                      Premio
                     </th>
                     <th style="background-color: #ccc; color: black" class="borde">
                       Estado Incentivo
@@ -50,7 +50,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- <tr *ngFor="let incentivo of listIncentivos">
+                  <tr *ngFor="let incentivo of listIncentivos">
                     <td>{{ incentivo.id }}</td>
                     <td>{{ incentivo.empresa }}</td>
                     <td>{{ incentivo.periodoIncentivo }}</td>
@@ -62,7 +62,7 @@
                       Del {{ incentivo.fechaInicio | date : "dd/MM/yyyy" }} al
                       {{ incentivo.fechaFin | date : "dd/MM/yyyy" }}
                     </td>
-                    <td>S/. {{ incentivo.monto }}</td>
+                    <td>{{ incentivo.premio }}</td>
                     <td>{{ incentivo.estadoIncentivo }}</td>
                     <td>
                       <button
@@ -74,7 +74,7 @@
                         Aceptar
                       </button>
                     </td>
-                  </tr> -->
+                  </tr>
                 </tbody>
               </table>
             </div>

@@ -40,11 +40,23 @@ export class IncentivosService {
     );
   }
 
+  getIncentivosPremios(dni: any): Observable<IIncentivoVista[]> {
+    console.log('tokken',this._tokenservice.interceptor())
+    const request: IIncentivoPagoRequest = { Dni: dni };
+    return this.http.post<IIncentivoVista[]>(
+      this.apiUrl + 'GetIncentivosPremios',
+      request,this._tokenservice.interceptor()
+    );
+  }
+
+
   UpdateIncentivoswithDNI(dni: any, id: any): Observable<IIncentivoVista[]> {
     // Añadir el token en la cabecera "Authorization" de la solicitud
     const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
     console.log('tokkenupdate',this.token)
     const request: IIncentivoPagoRequest = { Dni: dni, Id: id };
-    return this.http.post<IIncentivoVista[]>(this.apiUrl + 'UpdateWithDNI', request, { headers });
+    console.log('tokkenupdate',this.token)
+
+    return this.http.post<IIncentivoVista[]>(this.apiUrl + 'UpdateWithDNI', request, this._tokenservice.interceptor());
   }
 }

@@ -10,6 +10,7 @@ export interface IIncentivoVista {
   nombreIncentivo: string;
   empresa: string;
   monto: number;
+  premio?: string;
   estadoIncentivo: string;
   aceptado?: boolean; // Nueva propiedad para controlar si se ha aceptado el incentivo
 

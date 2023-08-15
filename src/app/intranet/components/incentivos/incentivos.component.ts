@@ -223,7 +223,7 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
             'Ya no tienes incentivos cargados.',
             'SIN INCENTIVOS'
           );
-          this._router.navigate(['/incentivosLogin']);
+          // this._router.navigate(['/incentivosLogin']);
         } else {
           this.listIncentivosOriginal = data;
           this.listIncentivos = data; // Update the filtered list as well
@@ -283,36 +283,74 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
     this.totalMontoGeneral = totalMontoGeneral; // Asignar el monto general calculado
   }
 
-  checkTokenExpiration(): void {
-    //const token = this.cookieService.get('token'); // Obtener el token del cookie
-    const token = localStorage.getItem('token'); // Obtener el token del localStorage
+  // checkTokenExpiration(): void {
+  //   //const token = this.cookieService.get('token'); // Obtener el token del cookie
+  //   const token = localStorage.getItem('token'); // Obtener el token del localStorage
 
+  //   if (!token) {
+  //     // No hay token, redirigir a la página de inicio de sesión
+  //     this._router.navigate(['/incentivosLogin']);
+  //     return;
+  //   }
+
+  //   // Obtener la fecha de expiración del token del payload (si está presente)
+  //   const tokenParts = token.split('.');
+  //   if (tokenParts.length === 3) {
+  //     const payload = JSON.parse(atob(tokenParts[1]));
+  //     // console.log('PAYLOAD HOUR', payload);
+  //     const expirationTime = payload.exp * 1000; // Multiplica por 1000 para convertir a milisegundos
+
+  //     // Calcular el tiempo restante hasta la expiración del token
+  //     const now = new Date().getTime();
+  //     const timeRemaining = expirationTime - now;
+
+  //     if (timeRemaining <= 0) {
+  //       // Token expirado, redirigir a la página de inicio de sesión y borrar la cookie
+  //       localStorage.removeItem('token');
+  //       this._router.navigate(['/incentivosLogin']);
+  //       return;
+  //     }
+
+  //     // Programar un redireccionamiento al tiempo de expiración del token
+  //     setTimeout(() => {
+  //       const token = localStorage.getItem('token');
+  //       if (token) {
+  //         // Token expirado, borrar el token y mostrar la alerta de sesión expirada
+  //         localStorage.removeItem('token');
+  //         this.showSessionExpiredAlert();
+  //         this._router.navigate(['/incentivosLogin']);
+  //       }
+  //     }, timeRemaining);
+  //   }
+  // }
+  checkTokenExpiration(): void {
+    const token = localStorage.getItem('token'); // Obtener el token del localStorage
+  
     if (!token) {
       // No hay token, redirigir a la página de inicio de sesión
       this._router.navigate(['/incentivosLogin']);
       return;
     }
-
+  
     // Obtener la fecha de expiración del token del payload (si está presente)
     const tokenParts = token.split('.');
     if (tokenParts.length === 3) {
       const payload = JSON.parse(atob(tokenParts[1]));
-      // console.log('PAYLOAD HOUR', payload);
-      const expirationTime = payload.exp * 1000; // Multiplica por 1000 para convertir a milisegundos
-
+      const expirationTime = payload.exp * 1000;
+  
       // Calcular el tiempo restante hasta la expiración del token
       const now = new Date().getTime();
       const timeRemaining = expirationTime - now;
-
+  
       if (timeRemaining <= 0) {
-        // Token expirado, redirigir a la página de inicio de sesión y borrar la cookie
+        // Token expirado, redirigir a la página de inicio de sesión y borrar el token
         localStorage.removeItem('token');
         this._router.navigate(['/incentivosLogin']);
         return;
       }
-
+  
       // Programar un redireccionamiento al tiempo de expiración del token
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         const token = localStorage.getItem('token');
         if (token) {
           // Token expirado, borrar el token y mostrar la alerta de sesión expirada
@@ -321,8 +359,14 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
           this._router.navigate(['/incentivosLogin']);
         }
       }, timeRemaining);
+  
+      // Cancelar el redireccionamiento si el usuario interactúa con la página
+      window.addEventListener('beforeunload', () => {
+        clearTimeout(timeout);
+      });
     }
   }
+  
   showSessionExpiredAlert(): void {
     Swal.fire({
       title: '¡Sesión expirada!',

@@ -125,6 +125,7 @@ export class IncentivosPremiosComponent {
 
           // this._router.navigate(['/incentivosLogin']);
         } else {
+          
           //this.listIncentivos = data; // Update the filtered list as well
           this.listIncentivos = [...data]; // Usando el operador de propagación para crear una nueva matriz
           this.cdr.detectChanges();

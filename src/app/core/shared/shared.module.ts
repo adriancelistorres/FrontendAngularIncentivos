@@ -22,6 +22,8 @@ import { IncentivosNavbarComponent } from './components/headers/incentivos-navba
       timeOut: 4000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
+      closeButton: true, // Habilita el botón de cierre
+
     }),
     ReactiveFormsModule,
   ],

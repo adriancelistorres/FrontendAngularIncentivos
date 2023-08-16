@@ -9,6 +9,7 @@ export interface IIncentivoVista {
   idIncentivo: number;
   nombreIncentivo: string;
   empresa: string;
+  tipoIncentivo?:string;
   monto: number;
   premio?: string;
   estadoIncentivo: string;

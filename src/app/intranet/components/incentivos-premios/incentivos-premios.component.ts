@@ -48,7 +48,7 @@ export class IncentivosPremiosComponent {
         if (data.length === 0) {
           this.toastr.warning(
             'No se encontraron premios actuales su nombre.',
-            'SIN INCENTIVOS'
+            'SIN PREMIOS'
           );
           // this._router.navigate(['/incentivosLogin']);
         } else {

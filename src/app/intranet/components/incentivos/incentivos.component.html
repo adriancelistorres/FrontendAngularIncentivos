@@ -74,78 +74,81 @@
           </div>
         </div>
       </div>
-      <div class="container">
-        <br />
-        <br />
-        <div class="table-responsive">
-          <table class="table table-dark table-hover">
-            <thead>
-              <tr style="border-color: aliceblue">
-                <th style="background-color: #ccc; color: black" class="borde">
-                  ID
-                </th>
-                <th style="background-color: #ccc; color: black" class="borde">
-                  Tipo Incentivo
-                </th>
-                <th style="background-color: #ccc; color: black" class="borde">
-                  Periodo
-                </th>
-                <th style="background-color: #ccc; color: black" class="borde">
-                  DNI Promotor
-                </th>
-                <th style="background-color: #ccc; color: black" class="borde">
-                  Nombre Promotor
-                </th>
-                <th style="background-color: #ccc; color: black" class="borde">
-                  PDV Incentivo
-                </th>
-                <th style="background-color: #ccc; color: black" class="borde">
-                  Nombre Incentivo
-                </th>
-                <th style="background-color: #ccc; color: black" class="borde">
-                  Vigencia incentivo
-                </th>
-                <th style="background-color: #ccc; color: black" class="borde">
-                  Monto
-                </th>
-                <th style="background-color: #ccc; color: black" class="borde">
-                  Estado Incentivo
-                </th>
-                <th style="background-color: #ccc; color: black" class="borde">
-                  Aceptar
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let incentivo of listIncentivos">
-                <td>{{ incentivo.id }}</td>
-                <td>{{ incentivo.empresa }}</td>
-                <td>{{ incentivo.periodoIncentivo }}</td>
-                <td>{{ incentivo.dniPromotor }}</td>
-                <td>{{ incentivo.nombreCompleto }}</td>
-                <td>{{ incentivo.puntoventa }}</td>
-                <td>{{ incentivo.nombreIncentivo }}</td>
-                <td>
-                  Del {{ incentivo.fechaInicio | date : "dd/MM/yyyy" }} al
-                  {{ incentivo.fechaFin | date : "dd/MM/yyyy" }}
-                </td>
-                <td>S/. {{ incentivo.monto }}</td>
-                <td>{{ incentivo.estadoIncentivo }}</td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-success"
-                    (click)="onAceptar(incentivo)"
-                    [disabled]="incentivo.aceptado"
-                  >
-                    Aceptar
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
+
+      <br />
+      <br />
+      <div class="table-responsive">
+        <table class="table table-dark table-hover">
+          <thead>
+            <tr style="border-color: aliceblue">
+              <th style="background-color: #ccc; color: black" class="borde">
+                ID
+              </th>
+              <th style="background-color: #ccc; color: black" class="borde">
+                Tipo Incentivo
+              </th>
+              <th style="background-color: #ccc; color: black" class="borde">
+                Periodo
+              </th>
+              <th style="background-color: #ccc; color: black" class="borde">
+                DNI Promotor
+              </th>
+              <th style="background-color: #ccc; color: black" class="borde">
+                Nombre Promotor
+              </th>
+              <th style="background-color: #ccc; color: black" class="borde">
+                PDV Incentivo
+              </th>
+              <th style="background-color: #ccc; color: black" class="borde">
+                Nombre Incentivo
+              </th>
+              <th style="background-color: #ccc; color: black" class="borde">
+                Vigencia incentivo
+              </th>
+               <th style="background-color: #ccc; color: black" class="borde">
+                Entrega
+              </th>
+              <th style="background-color: #ccc; color: black" class="borde">
+                Monto
+              </th>
+              <th style="background-color: #ccc; color: black" class="borde">
+                Estado Incentivo
+              </th>
+              <th style="background-color: #ccc; color: black" class="borde">
+                Aceptar
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let incentivo of listIncentivos">
+              <td>{{ incentivo.id }}</td>
+              <td>{{ incentivo.empresa }}</td>
+              <td>{{ incentivo.periodoIncentivo }}</td>
+              <td>{{ incentivo.dniPromotor }}</td>
+              <td>{{ incentivo.nombreCompleto }}</td>
+              <td>{{ incentivo.puntoventa }}</td>
+              <td>{{ incentivo.nombreIncentivo }}</td>
+              <td>
+                Del {{ incentivo.fechaInicio | date : "dd/MM/yyyy" }} al
+                {{ incentivo.fechaFin | date : "dd/MM/yyyy" }}
+              </td>
+              <td>{{ incentivo.tipoIncentivo }}</td>
+              <td>S/. {{ incentivo.monto }}</td>
+              <td>{{ incentivo.estadoIncentivo }}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="onAceptar(incentivo)"
+                  [disabled]="incentivo.aceptado"
+                >
+                  Aceptar
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
   </div>
 </div>

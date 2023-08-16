@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IIncentivoVista } from 'src/app/core/models/IIncentivoVista';
@@ -22,26 +22,27 @@ export class IncentivosPremiosComponent {
     private toastr: ToastrService,
     private _router: Router,
     private _tokenservice: TokenInterceptorService,
-    private _disparadorDNI: IncentivosDisparadosService
+    private _disparadorDNI: IncentivosDisparadosService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this._disparadorDNI.disparadorDNI.subscribe((data) => {
-      console.log('dataaa', data);
+      // console.log('dataaa', data);
       const dataAsString = data.data;
-      console.log('dataAsString', dataAsString);
+      // console.log('dataAsString', dataAsString);
       this.dni = dataAsString;
     });
     this.checkTokenExpiration();
 
-    console.log('tokken', this._tokenservice.interceptor());
-    console.log('tokken', this._tokenservice.interceptor());
+    // console.log('tokken', this._tokenservice.interceptor());
+    // console.log('tokken', this._tokenservice.interceptor());
     this.getIncentivos();
     // this.calculateTotals(); // Llama a la función para calcular los totales
   }
   getIncentivos(): void {
     // this.calcularTiposIncentivos();
-    console.log('Dtas', this.dni);
+    // console.log('Dtas', this.dni);
     this._incentivosServices.getIncentivosPremios(this.dni).subscribe(
       (data: IIncentivoVista[]) => {
         if (data.length === 0) {
@@ -51,8 +52,10 @@ export class IncentivosPremiosComponent {
           );
           // this._router.navigate(['/incentivosLogin']);
         } else {
-          this.listIncentivos = data; // Establece la lista filtrada inicialmente
-          console.log('listIncentivos', this.listIncentivos);
+          //this.listIncentivos = data; // Establece la lista filtrada inicialmente
+          // console.log('listIncentivos', this.listIncentivos);
+          this.listIncentivos = [...data]; // Usando el operador de propagación para crear una nueva matriz
+
         
         }
       },
@@ -90,6 +93,7 @@ export class IncentivosPremiosComponent {
                 timer: 2000,
                 timerProgressBar: true,
               });
+              
               this.updateIncentivosList();
             },
             (error) => {
@@ -114,12 +118,16 @@ export class IncentivosPremiosComponent {
         if (data.length === 0) {
           // Si la lista está vacía, mostrar mensaje y redirigir al login de incentivos
           this.toastr.warning(
-            'Ya no tienes premios cargados.',
+            'Ya no tienes artefactos cargados.',
             'SIN INCENTIVOS'
           );
+          this.listIncentivos = [...data]; // Usando el operador de propagación para crear una nueva matriz
+
           // this._router.navigate(['/incentivosLogin']);
         } else {
-          this.listIncentivos = data; // Update the filtered list as well
+          //this.listIncentivos = data; // Update the filtered list as well
+          this.listIncentivos = [...data]; // Usando el operador de propagación para crear una nueva matriz
+          this.cdr.detectChanges();
 
          
         }

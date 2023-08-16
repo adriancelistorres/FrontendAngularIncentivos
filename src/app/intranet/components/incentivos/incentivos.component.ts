@@ -46,21 +46,21 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
 
   ngOnInit(): void {
     this._disparadorDNI.disparadorDNI.subscribe((data) => {
-      console.log('dataaa', data);
+      // console.log('dataaa', data);
       const dataAsString = data.data;
-      console.log('dataAsString', dataAsString);
+      // console.log('dataAsString', dataAsString);
       this.dni = dataAsString;
     });
     this.checkTokenExpiration();
 
-    console.log('tokken', this._tokenservice.interceptor());
+    // console.log('tokken', this._tokenservice.interceptor());
     this.getIncentivos();
     // this.calculateTotals(); // Llama a la función para calcular los totales
   }
 
   getIncentivos(): void {
     // this.calcularTiposIncentivos();
-    console.log('Dtas', this.dni);
+    // console.log('Dtas', this.dni);
     this._incentivosServices.getIncentivosConfirmationFalse(this.dni).subscribe(
       (data: IIncentivoVista[]) => {
         if (data.length === 0) {
@@ -169,7 +169,7 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
     for (const incentivo of incentivos) {
       empresaSet.add(incentivo.empresa);
     }
-    console.log('empresaSet', empresaSet);
+    // console.log('empresaSet', empresaSet);
     return Array.from(empresaSet);
   }
 
@@ -223,6 +223,8 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
             'Ya no tienes incentivos cargados.',
             'SIN INCENTIVOS'
           );
+          this.listIncentivos = [...data]; // Usando el operador de propagación para crear una nueva matriz
+
           // this._router.navigate(['/incentivosLogin']);
         } else {
           this.listIncentivosOriginal = data;
@@ -262,8 +264,8 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
       0
     );
 
-    console.log('Lista de incentivos:', this.listIncentivos);
-    console.log('Monto General:', totalMontoGeneral);
+    // console.log('Lista de incentivos:', this.listIncentivos);
+    // console.log('Monto General:', totalMontoGeneral);
 
     // Calcular el monto por empresa
     const montoPorEmpresa = this.empresas.map((empresa) => {
@@ -276,8 +278,8 @@ estiloFondoParaTipoSeleccionado: any; // Debes ajustar el tipo según tus necesi
       return { empresa, totalMontoEmpresa };
     });
 
-    console.log('Monto por Empresa:');
-    console.table(montoPorEmpresa);
+    // console.log('Monto por Empresa:');
+    // console.table(montoPorEmpresa);
 
     this.montoPorEmpresa = montoPorEmpresa; // Asignar los montos por empresa calculados
     this.totalMontoGeneral = totalMontoGeneral; // Asignar el monto general calculado

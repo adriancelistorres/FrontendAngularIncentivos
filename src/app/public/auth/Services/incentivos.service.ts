@@ -32,7 +32,7 @@ export class IncentivosService {
   }
 
   getIncentivosConfirmationFalse(dni: any): Observable<IIncentivoVista[]> {
-    console.log('tokken',this._tokenservice.interceptor())
+    // console.log('tokken',this._tokenservice.interceptor())
     const request: IIncentivoPagoRequest = { Dni: dni };
     return this.http.post<IIncentivoVista[]>(
       this.apiUrl + 'GeneralWithDNIConfirmationFalse',
@@ -41,7 +41,7 @@ export class IncentivosService {
   }
 
   getIncentivosPremios(dni: any): Observable<IIncentivoVista[]> {
-    console.log('tokken',this._tokenservice.interceptor())
+    // console.log('tokken',this._tokenservice.interceptor())
     const request: IIncentivoPagoRequest = { Dni: dni };
     return this.http.post<IIncentivoVista[]>(
       this.apiUrl + 'GetIncentivosPremios',
@@ -53,9 +53,9 @@ export class IncentivosService {
   UpdateIncentivoswithDNI(dni: any, id: any): Observable<IIncentivoVista[]> {
     // Añadir el token en la cabecera "Authorization" de la solicitud
     const headers = new HttpHeaders().set('Authorization', `Bearer ${localStorage.getItem('token')}`);
-    console.log('tokkenupdate',this.token)
+    // console.log('tokkenupdate',this.token)
     const request: IIncentivoPagoRequest = { Dni: dni, Id: id };
-    console.log('tokkenupdate',this.token)
+    // console.log('tokkenupdate',this.token)
 
     return this.http.post<IIncentivoVista[]>(this.apiUrl + 'UpdateWithDNI', request, this._tokenservice.interceptor());
   }

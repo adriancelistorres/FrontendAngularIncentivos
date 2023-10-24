@@ -1,0 +1,84 @@
+<app-incentivos-navbar></app-incentivos-navbar>
+
+<div class="background-container" style="padding-top: 30px;">
+    <div class="container" >
+      <h2 style="color: rgb(245, 245, 245); margin-bottom: 0px">
+        Tabla de Artefactos
+      </h2>
+  
+      <div class="container-fluid">
+        <div class="container">
+            <br />
+            <br />
+            <div class="table-responsive">
+              <table class="table table-secondary table-hover table-bordered" >
+                <thead class="table table-dark  ">
+                  <tr style="border-color: aliceblue">
+                    <th  >
+                      ID
+                    </th>
+                    <th  >
+                      Tipo Incentivo
+                    </th>
+                    <th >
+                      Periodo
+                    </th>
+                    <th >
+                      DNI Promotor
+                    </th>
+                    <th >
+                      Nombre Promotor
+                    </th>
+                    <th >
+                      PDV Incentivo
+                    </th>
+                    <th >
+                      Nombre Incentivo
+                    </th>
+                    <th >
+                      Vigencia incentivo
+                    </th>
+                    <th>
+                      Premio
+                    </th>
+                    <th >
+                      Estado Incentivo
+                    </th>
+                    <th >
+                      Aceptar
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let incentivo of listIncentivos">
+                    <td>{{ incentivo.id }}</td>
+                    <td>{{ incentivo.empresa }}</td>
+                    <td>{{ incentivo.periodoIncentivo }}</td>
+                    <td>{{ incentivo.dniPromotor }}</td>
+                    <td>{{ incentivo.nombreCompleto }}</td>
+                    <td>{{ incentivo.puntoventa }}</td>
+                    <td>{{ incentivo.nombreIncentivo }}</td>
+                    <td>
+                      Del {{ incentivo.fechaInicio | date : "dd/MM/yyyy" }} al
+                      {{ incentivo.fechaFin | date : "dd/MM/yyyy" }}
+                    </td>
+                    <td>{{ incentivo.premio }}</td>
+                    <td>{{ incentivo.estadoIncentivo }}</td>
+                    <td>
+                      <button
+                        type="button"
+                        class="btn btn-success"
+                        (click)="onAceptar(incentivo)"
+                        [disabled]="incentivo.aceptado"
+                      >
+                        Aceptar
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>

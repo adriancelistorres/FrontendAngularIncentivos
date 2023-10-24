@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  //ndpoint: 'https://intranet.grupotawa.com/incentivosrom/',
-   endpoint: 'https://localhost:7117/',
+  endpoint: 'https://intranet.grupotawa.com/incentivosrom/',
+  // endpoint: 'https://localhost:7117/',
 
 };
 

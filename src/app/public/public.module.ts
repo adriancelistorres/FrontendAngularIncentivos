@@ -8,6 +8,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { PublicRoutingModule } from './public-routing.module';
 import { SharedModule } from '../core/shared/shared.module';
 import { LoginIncentivosComponent } from './auth/components/login-incentivos/login-incentivos.component';
+import { IntranetModule } from '../intranet/intranet.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { LoginIncentivosComponent } from './auth/components/login-incentivos/log
   ],
   imports: [
     PublicRoutingModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [],
 })

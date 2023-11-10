@@ -10,11 +10,12 @@ import { IntranetRoutingModule } from './intranet-routing.module';
 import { IncentivosComponent } from './components/incentivos/incentivos.component';
 import { CommonModule } from '@angular/common';
 import { IncentivosPremiosComponent } from './components/incentivos-premios/incentivos-premios.component';
+import { AsistenciaComponent } from './components/asistencia/asistencia.component';
 
 
 
 @NgModule({
-  declarations: [IncentivosComponent, IncentivosPremiosComponent],
+  declarations: [IncentivosComponent, IncentivosPremiosComponent,AsistenciaComponent],
   imports: [IntranetRoutingModule, SharedModule, FormsModule, CommonModule],
   exports: [],
 })

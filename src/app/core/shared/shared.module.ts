@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { RouterModule } from '@angular/router';
-import { IncentivosNavbarComponent } from './components/headers/incentivos-navbar/incentivos-navbar.component';
+import { IncentivosNavbarComponent } from './components/navigation-bar/incentivos-navbar/incentivos-navbar.component';
 
 @NgModule({
   declarations: [
